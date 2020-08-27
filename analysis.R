@@ -17,6 +17,14 @@ library(Cairo)
 
 theme_set(theme_minimal() + theme(panel.grid.minor = element_blank()))
 
+trace(grDevices::png, quote({
+   if (missing(type) && missing(antialias)) {
+      type <- "cairo-png"
+      antialias <- "subpixel"
+   }
+}), print = FALSE)
+
+
 # Load data ---------------------------------------------------------------
 data <- read_csv("simulated_data.csv")
 
@@ -188,7 +196,6 @@ model_rf_test %>% metrics(truth = Death, estimate = .pred_class)
           x = "Predicted death",
           y = "Actual death",
           subtitle = "Model: rf (Death ~ Age + LOS + Category + Organisation)"))
-
 
 # Save plot ---------------------------------------------------------------
 CairoPNG(filename = "Models.png", width = 1600, height = 800)
